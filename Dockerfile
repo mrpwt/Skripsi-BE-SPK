@@ -1,17 +1,22 @@
-# Stage 1: Build
+# Stage 1: Build tetap sama
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
-# Salin pom.xml dulu untuk caching agar build lebih cepat
 COPY pom.xml .
 RUN mvn dependency:go-offline
-
-# Salin source code
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run
-FROM eclipse-temurin:21-jre-jammy
+# Stage 2: Run gunakan Alpine agar hemat RAM OS
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-Xmx180m", "-Xms180m", "-XX:+UseSerialGC", "-Dserver.address=0.0.0.0", "-Dserver.port=8080", "-jar", "app.jar"]
+
+# Optimasi Flag Java untuk RAM sangat kecil
+ENTRYPOINT ["java", \
+            "-Xmx160m", \
+            "-Xms160m", \
+            "-XX:+UseSerialGC", \
+            "-XX:MaxRAM=256m", \
+            "-Dserver.address=0.0.0.0", \
+            "-Dserver.port=8080", \
+            "-jar", "app.jar"]
