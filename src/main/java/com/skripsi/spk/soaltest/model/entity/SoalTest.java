@@ -1,9 +1,10 @@
 package com.skripsi.spk.soaltest.model.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class SoalTest {
     private String pertanyaan;
 
     @Column(nullable = false, columnDefinition = "jsonb")
-    @Type(JsonType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, String> opsi;
 
     @Column(nullable = false, length = 5)
