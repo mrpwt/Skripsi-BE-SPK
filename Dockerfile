@@ -14,4 +14,4 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx180m", "-Xms180m", "-XX:+UseSerialGC", "-Dserver.address=0.0.0.0", "-Dserver.port=8080", "-jar", "app.jar"]
