@@ -44,7 +44,7 @@ public class SecurityConfig {
 
         // Izin Origin (URL Frontend Angular Anda)
         // Pastikan tidak ada typo di port 4200
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://spk-ti-ump.netlify.app/"));
 
         // Izin Method
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
