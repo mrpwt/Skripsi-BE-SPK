@@ -30,7 +30,7 @@ public class SpkCalculationServiceImpl implements SpkCalculationService {
 
         List<Penilaian> nilaiList = penilaianRepo.findByNim(nim);
         if (nilaiList.isEmpty()) {
-            throw new RuntimeException("Data penilaian tidak ditemukan untuk NIM: " + nim);
+            return Collections.emptyList(); // atau new ArrayList<>();
         }
 
         List<Kriteria> kriteriaList = kriteriaRepo.findAll();
