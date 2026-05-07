@@ -2,7 +2,6 @@ package com.skripsi.spk.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,10 +23,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // 1. Aktifkan CORS di sini
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+                // 2. Disable CSRF (Wajib untuk API non-browser based session)
                 .csrf(csrf -> csrf.disable())
+
+                // 3. Izin Akses (Sementara permitAll dulu sesuai kode lama Anda)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().permitAll()
                 );
 
@@ -41,10 +44,7 @@ public class SecurityConfig {
 
         // Izin Origin (URL Frontend Angular Anda)
         // Pastikan tidak ada typo di port 4200
-        configuration.setAllowedOriginPatterns(Arrays.asList(
-                "http://localhost:4200",
-                "https://spk-ti-ump.netlify.app"
-        ));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://spk-ti-ump.netlify.app/"));
 
         // Izin Method
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
