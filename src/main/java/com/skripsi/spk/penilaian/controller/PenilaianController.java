@@ -1,13 +1,11 @@
 package com.skripsi.spk.penilaian.controller;
 
+import com.skripsi.spk.penilaian.model.dto.AnalitikResponse;
 import com.skripsi.spk.penilaian.model.dto.PenilaianBulkRequest;
 import com.skripsi.spk.penilaian.service.interfaces.PenilaianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -27,6 +25,11 @@ public class PenilaianController {
         return ResponseEntity.ok(Map.of(
                 "message", "Penilaian mahasiswa berhasil disimpan / diperbarui"
         ));
+    }
+
+    @GetMapping("/analitik")
+    public ResponseEntity<AnalitikResponse> getAnalitik() {
+        return ResponseEntity.ok(service.getDashboardStats());
     }
 }
 

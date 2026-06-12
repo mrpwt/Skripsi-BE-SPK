@@ -14,4 +14,6 @@ public interface HasilRekomendasiRepository extends JpaRepository<HasilRekomenda
 
     // Ambil hasil urut berdasarkan Ranking 1, 2, 3
     List<HasilRekomendasi> findByNimOrderByRankingAsc(String nim);
+
+    List<HasilRekomendasi> findByNim(String nim);
 }

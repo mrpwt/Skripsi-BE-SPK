@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Raport Hasil Rekomendasi SPK</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; color: #333; line-height: 1.6; }
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 3px double #333; padding-bottom: 10px; }
+        .header h2 { margin: 0; padding: 0; text-transform: uppercase; font-size: 18px; }
+        .meta-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
+        .meta-table td { padding: 5px 0; vertical-align: top; }
+        .main-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .main-table th, .main-table td { border: 1px solid #333; padding: 8px; text-align: center; }
+        .main-table th { background-color: #f2f2f2; text-transform: uppercase; font-size: 11px; font-weight: bold; }
+        .text-start { text-align: left; }
+        .badge-rekomendasi { font-weight: bold; color: #2e7d32; }
+        .footer { margin-top: 60px; float: right; text-align: center; width: 220px; page-break-inside: avoid; }
+        .signature-space { height: 75px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Raport Hasil Rekomendasi Peminatan</h2>
+    <div style="font-size: 13px; margin-top: 5px; color: #555;">Sistem Pendukung Keputusan Menggunakan Metode Simple Additive Weighting (SAW)</div>
+</div>
+
+<table class="meta-table">
+    <tr>
+        <td style="width: 18%;"><strong>Nama Mahasiswa</strong></td>
+        <td style="width: 2%;">:</td>
+        <td style="width: 40%; text-transform: uppercase;" th:text="${namaMahasiswa}"></td>
+        <td style="width: 18%;"><strong>Tanggal Cetak</strong></td>
+        <td style="width: 2%;">:</td>
+        <td style="width: 20%;" th:text="${tanggal}"></td>
+    </tr>
+    <tr>
+        <td><strong>NIM</strong></td>
+        <td>:</td>
+        <td th:text="${nim}"></td>
+        <td><strong>Rekomendasi</strong></td>
+        <td>:</td>
+        <td style="font-weight: bold; color: #0056b3;" th:text="${rekomendasiUtama}"></td>
+    </tr>
+</table>
+
+<h3 style="font-size: 13px; margin-bottom: 8px;">📑 Tabel Transkrip Nilai Normalisasi Kriteria</h3>
+
+<table class="main-table">
+    <thead>
+    <tr>
+        <th style="width: 5%;">No</th>
+        <th class="text-start">Nama Alternatif (Peminatan Bidang)</th>
+        <th th:each="key : ${kriteriaKeys}" th:text="${key}"></th>
+        <th style="background-color: #fff9e6; width: 15%;">Nilai Akhir</th>
+        <th style="width: 12%;">Peringkat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="skor, iter : ${detailSkor}">
+        <td><span th:text="${iter.index + 1}"></span></td>
+        <td class="text-start">
+            <span th:text="${skor.namaBidang}"></span>
+            <span class="badge-rekomendasi" th:if="${skor.ranking == 1}"> *(Rekomendasi Utama)</span>
+        </td>
+        <td th:each="key : ${kriteriaKeys}" th:text="${skor.normalizedValues.get(key)}"></td>
+        <td style="font-weight: bold; color: #0056b3; background-color: #fffdf6;" th:text="${skor.skorAkhir}"></td>
+        <td><span th:text="${skor.ranking}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <div>Purwokerto, <span th:text="${tanggal}"></span></div>
+    <div style="margin-top: 3px;">Ketua Program Studi</div>
+    <div class="signature-space"><br/></div>
+    <div style="border-bottom: 1px solid #333; font-weight: bold;">( ___________________ )</div>
+    <div style="font-size: 10px; color: #666; margin-top: 4px;">NIDN. _______________</div>
+</div>
+
+</body>
+</html>
