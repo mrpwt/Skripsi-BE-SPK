@@ -98,14 +98,13 @@ public class SpkCalculationServiceImpl implements SpkCalculationService {
                         ? divisor / nilai
                         : nilai / divisor;
 
-                normalizedMap.put(
-                        k.getKode(),
-                        BigDecimal.valueOf(normalized)
-                                .setScale(3, BigDecimal.ROUND_HALF_UP)
-                                .doubleValue()
-                );
+                double normalizedRounded = BigDecimal.valueOf(normalized)
+                        .setScale(3, BigDecimal.ROUND_HALF_UP)
+                        .doubleValue();
 
-                totalSkor += (normalized * bobot);
+                normalizedMap.put(k.getKode(), normalizedRounded);
+
+                totalSkor += normalizedRounded * bobot;
             }
 
             resultList.add(
